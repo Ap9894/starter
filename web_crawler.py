@@ -1,23 +1,11 @@
 
-# coding: utf-8
-
-# In[9]:
-
 
 from bs4 import BeautifulSoup 
 import requests
 
-
-# In[10]:
-
-
 import mysql.connector
 from mysql.connector import Error
 from mysql.connector import errorcode
-
-
-# In[11]:
-
 
 def get_link(link_url,max_count):
     source_code = requests.get(url)
@@ -25,15 +13,15 @@ def get_link(link_url,max_count):
     soup = BeautifulSoup(plain_text,"lxml")
     arr = []
     for link in soup.findAll('a'):
-        
         if max_count == 0 :
             break
         if link.get('href') == None:
             continue
         max_count -= 1
-#         print(max_count)
         href = link_url+link.get('href')
-#         get_link(href)
+        k = href.rfind('http://')
+        if k != -1:
+            href = href[k:]
         arr.append(href)
     return arr
         
@@ -41,17 +29,9 @@ def get_link(link_url,max_count):
 url = 'https://dmoz-odp.org/'
 a = get_link(url,50)
 
-
-# In[12]:
-
-
 val = []
 for i in range(len(a)):
      val.append([i+1, a[i]])
-
-
-# In[13]:
-
 
 try:
     connection = mysql.connector.connect(host='localhost',
