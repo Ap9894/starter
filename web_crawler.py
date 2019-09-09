@@ -19,7 +19,7 @@ def get_link(link_url,max_count):
             continue
         max_count -= 1
         href = link_url+link.get('href')
-        k = href.rfind('http://')
+        k = href.rfind('http')
         if k != -1:
             href = href[k:]
         arr.append(href)
